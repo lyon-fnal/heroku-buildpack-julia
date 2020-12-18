@@ -18,15 +18,10 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-DEFAULT_JULIA_VERSION=1.4.1
+DEFAULT_JULIA_VERSION=1.5.3
 JULIA_VERSION="$DEFAULT_JULIA_VERSION"
-if [[ -f Project.toml ]]; then
-  curl -Lo /tmp/faq https://github.com/jzelinskie/faq/releases/download/0.0.6/faq-linux-amd64
-  chmod +x /tmp/faq
 
-  JULIA_VERSION="$(/tmp/faq -Mr '.compat.julia' Project.toml -o json)"
-  [[ "$JULIA_VERSION" == "null" ]] && JULIA_VERSION="$DEFAULT_JULIA_VERSION"
-fi
+# Remove parsing of the Project.toml file since faq doesn't seem to work
 
 JULIA_MAJOR_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[1]}')"
 JULIA_MINOR_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[2]}')"
